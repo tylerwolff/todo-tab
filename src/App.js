@@ -3,26 +3,58 @@ import { format } from "date-fns";
 import Todos from "./Todos";
 import "./App.css";
 
+const hasChromeSync = !!window.chrome.storage;
+
+const initialTodos = () => {
+  const todos = JSON.parse(window.localStorage.getItem("todos"));
+  return todos || [];
+};
+
 export default props => {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(initialTodos());
   const [time, setTime] = useState(new Date());
+
+  // async call to chrome.storage.sync to load initial todos, will only run once
+  useEffect(() => {
+    if (hasChromeSync) {
+      window.chrome.storage.sync.get(["todos"], result => {
+        setTodos(result.key);
+      });
+    }
+  }, []);
 
   useEffect(
     () => {
       document.title = `${todos.length} tasks today`;
     },
+    [todos.length]
+  );
+
+  useEffect(
+    () => {
+      // if running as a chrome extension
+      if (hasChromeSync) {
+        // note: this is async
+        window.chrome.storage.sync.set({ todos });
+      } else {
+        window.localStorage.setItem("todos", JSON.stringify(todos));
+      }
+    },
     [todos]
   );
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setTime(new Date());
-    }, 1000);
+  useEffect(
+    () => {
+      const timer = setTimeout(() => {
+        setTime(new Date());
+      }, 1000);
 
-    return () => {
-      clearTimeout(timer);
-    };
-  });
+      return () => {
+        clearTimeout(timer);
+      };
+    },
+    [time]
+  );
 
   return (
     <div className="App">

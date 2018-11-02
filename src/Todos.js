@@ -1,31 +1,46 @@
 import React, { useState } from "react";
+import Todo from "./Todo";
 
 export default props => {
-  const [todo, setTodo] = useState("");
+  const [newTodo, setNewTodo] = useState("");
   const { todos, setTodos } = props;
 
   const handleChange = e => {
-    setTodo(e.target.value);
+    setNewTodo(e.target.value);
+  };
+
+  const toggleTodo = todo => {
+    setTodos(
+      todos.reduce((acc, t) => {
+        if (t.id === todo.id) {
+          acc.push({ ...t, isDone: !t.isDone });
+        } else {
+          acc.push(t);
+        }
+
+        return acc;
+      }, [])
+    );
   };
 
   return (
     <div>
       <ul>
         {todos.map((t, index) => (
-          <li key={index}>
-            {t.isDone}
-            {t.value}
-          </li>
+          <Todo key={index} todo={t} onToggle={toggleTodo} />
         ))}
       </ul>
       <form
         onSubmit={e => {
           e.preventDefault();
-          setTodos([...todos, { value: todo, isDone: false }]);
-          setTodo("");
+          setTodos([
+            ...todos,
+            { id: new Date().toISOString(), value: newTodo, isDone: false }
+          ]);
+          setNewTodo("");
         }}
       >
-        <input type="text" value={todo} onChange={handleChange} />
+        <input type="text" value={newTodo} onChange={handleChange} />
       </form>
     </div>
   );

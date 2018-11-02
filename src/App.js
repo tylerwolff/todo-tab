@@ -21,7 +21,6 @@ export default props => {
   useEffect(() => {
     if (hasChromeSync) {
       window.chrome.storage.sync.get(["todos"], result => {
-        console.log(result, result.todos);
         setTodos(result.todos || []);
       });
     }

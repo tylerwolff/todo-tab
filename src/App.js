@@ -6,8 +6,11 @@ import "./App.css";
 const hasChromeSync = !!window.chrome.storage;
 
 const initialTodos = () => {
-  const todos = JSON.parse(window.localStorage.getItem("todos"));
-  return todos || [];
+  if (hasChromeSync) {
+    return [];
+  } else {
+    return JSON.parse(window.localStorage.getItem("todos")) || [];
+  }
 };
 
 export default props => {
@@ -18,7 +21,8 @@ export default props => {
   useEffect(() => {
     if (hasChromeSync) {
       window.chrome.storage.sync.get(["todos"], result => {
-        setTodos(result.key);
+        console.log(result, result.todos);
+        setTodos(result.todos || []);
       });
     }
   }, []);
@@ -27,7 +31,7 @@ export default props => {
     () => {
       document.title = `${todos.length} tasks today`;
     },
-    [todos.length]
+    [todos]
   );
 
   useEffect(

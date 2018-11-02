@@ -17,7 +17,7 @@ export default props => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setTime(new Date());
-    }, 30000);
+    }, 1000);
 
     return () => {
       clearTimeout(timer);
@@ -26,7 +26,7 @@ export default props => {
 
   return (
     <div className="App">
-      <h1 className="todos">{format(time, "dddd HH:mm")}</h1>
+      <h1 className="todos">{format(time, "dddd HH:mm:ss")}</h1>
       <Todos todos={todos} setTodos={setTodos} />
     </div>
   );

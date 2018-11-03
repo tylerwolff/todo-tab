@@ -1,6 +1,6 @@
 {
-  "name": "Today",
-  "version": "0.0.1",
+  "name": "Todo Tab",
+  "version": "0.1.0",
   "manifest_version": 2,
   "description": "A daily todo list",
   "icons": {

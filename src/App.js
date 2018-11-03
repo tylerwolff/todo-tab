@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { format } from "date-fns";
-import Todos from "./Todos";
-import "./App.css";
+import React, { useState, useEffect } from 'react';
+import { format } from 'date-fns';
+import Todos from './Todos';
+import './App.css';
 
 const hasChromeSync = !!window.chrome.storage;
 
@@ -9,7 +9,7 @@ const initialTodos = () => {
   if (hasChromeSync) {
     return [];
   } else {
-    return JSON.parse(window.localStorage.getItem("todos")) || [];
+    return JSON.parse(window.localStorage.getItem('todos')) || [];
   }
 };
 
@@ -20,7 +20,7 @@ export default props => {
   // async call to chrome.storage.sync to load initial todos, will only run once
   useEffect(() => {
     if (hasChromeSync) {
-      window.chrome.storage.sync.get(["todos"], result => {
+      window.chrome.storage.sync.get(['todos'], result => {
         setTodos(result.todos || []);
       });
     }
@@ -40,7 +40,7 @@ export default props => {
         // note: this is async
         window.chrome.storage.sync.set({ todos });
       } else {
-        window.localStorage.setItem("todos", JSON.stringify(todos));
+        window.localStorage.setItem('todos', JSON.stringify(todos));
       }
     },
     [todos]
@@ -61,7 +61,7 @@ export default props => {
 
   return (
     <div className="App">
-      <h1 className="App__header">{format(time, "dddd HH:mm")}</h1>
+      <h1 className="App__header">{format(time, 'dddd HH:mm')}</h1>
       <Todos todos={todos} setTodos={setTodos} />
     </div>
   );

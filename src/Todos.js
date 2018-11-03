@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Todo from "./Todo";
+import TodoInput from "./TodoInput";
+import "./Todos.css";
 
 export default props => {
   const [newTodo, setNewTodo] = useState("");
@@ -13,7 +15,11 @@ export default props => {
     setTodos(
       todos.reduce((acc, t) => {
         if (t.id === todo.id) {
-          acc.push({ ...t, isDone: !t.isDone });
+          acc.push({
+            ...t,
+            isDone: !t.isDone,
+            completedAt: new Date()
+          });
         } else {
           acc.push(t);
         }
@@ -23,11 +29,28 @@ export default props => {
     );
   };
 
+  const deleteTodo = todo => {
+    setTodos(
+      todos.reduce((acc, t) => {
+        if (t.id === todo.id) {
+          return acc;
+        }
+
+        return [...acc, t];
+      }, [])
+    );
+  };
+
   return (
-    <div>
-      <ul>
+    <div className="todos">
+      <ul className="todos__list">
         {todos.map((t, index) => (
-          <Todo key={index} todo={t} onToggle={toggleTodo} />
+          <Todo
+            key={index}
+            todo={t}
+            onToggle={toggleTodo}
+            onDelete={deleteTodo}
+          />
         ))}
       </ul>
       <form
@@ -40,7 +63,7 @@ export default props => {
           setNewTodo("");
         }}
       >
-        <input type="text" value={newTodo} onChange={handleChange} />
+        <TodoInput value={newTodo} onChange={handleChange} />
       </form>
     </div>
   );

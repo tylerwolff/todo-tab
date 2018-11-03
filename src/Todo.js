@@ -1,14 +1,28 @@
 import React from "react";
+import { FaRegCircle, FaRegCheckCircle } from "react-icons/fa";
+import { MdClose } from "react-icons/md";
+import "./Todo.css";
 
 export default props => {
-  const { todo, onToggle } = props;
+  const { todo, onToggle, onDelete } = props;
 
   return (
-    <li>
-      <button onClick={() => onToggle(todo)}>
-        {todo.isDone ? "✔" : "[ ]"}
+    <li className={`todo ${todo.isDone && "todo--done"}`}>
+      <button
+        type="button"
+        onClick={() => onToggle(todo)}
+        className="todo__check"
+      >
+        {todo.isDone ? <FaRegCheckCircle /> : <FaRegCircle />}
       </button>
-      {todo.value}
+      <span className="todo__text">{todo.value}</span>
+      <button
+        type="button"
+        className="todo__remove"
+        onClick={() => onDelete(todo)}
+      >
+        <MdClose />
+      </button>
     </li>
   );
 };

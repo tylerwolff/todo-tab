@@ -18,3 +18,8 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
 }
+
+.App__header {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}

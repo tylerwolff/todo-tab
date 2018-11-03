@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import Todos from './Todos';
+import ProgressBar from './ProgressBar';
 import './App.css';
 
 const hasChromeSync = !!window.chrome.storage;
@@ -59,8 +60,12 @@ export default props => {
     [time]
   );
 
+  const done = todos.filter(t => t.isDone);
+  const progress = (done.length / todos.length) * 100;
+
   return (
     <div className="App">
+      <ProgressBar progress={progress} />
       <h1 className="App__header">{format(time, 'dddd HH:mm')}</h1>
       <Todos todos={todos} setTodos={setTodos} />
     </div>

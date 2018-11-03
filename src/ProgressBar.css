@@ -1,0 +1,24 @@
+.progressBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.progressBar__inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-image: linear-gradient(
+    to right,
+    #f78ca0 0%,
+    #f9748f 19%,
+    #fd868c 60%,
+    #fe9a8b 100%
+  );
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}

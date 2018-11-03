@@ -61,7 +61,7 @@ export default props => {
 
   return (
     <div className="App">
-      <h1 className="App__header">{format(time, "dddd HH:mm:ss")}</h1>
+      <h1 className="App__header">{format(time, "dddd HH:mm")}</h1>
       <Todos todos={todos} setTodos={setTodos} />
     </div>
   );

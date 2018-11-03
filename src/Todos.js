@@ -1,14 +1,26 @@
-import React, { useState } from "react";
-import Todo from "./Todo";
-import TodoInput from "./TodoInput";
-import "./Todos.css";
+import React, { useState } from 'react';
+import Todo from './Todo';
+import TodoInput from './TodoInput';
+import './Todos.css';
 
 export default props => {
-  const [newTodo, setNewTodo] = useState("");
+  const [newTodo, setNewTodo] = useState('');
   const { todos, setTodos } = props;
 
   const handleChange = e => {
     setNewTodo(e.target.value);
+  };
+
+  const addTodo = text => {
+    setTodos([
+      ...todos,
+      {
+        id: new Date().toISOString(),
+        value: text,
+        isDone: false,
+        completedAt: null,
+      },
+    ]);
   };
 
   const toggleTodo = todo => {
@@ -18,7 +30,7 @@ export default props => {
           acc.push({
             ...t,
             isDone: !t.isDone,
-            completedAt: new Date()
+            completedAt: new Date(),
           });
         } else {
           acc.push(t);
@@ -56,11 +68,8 @@ export default props => {
       <form
         onSubmit={e => {
           e.preventDefault();
-          setTodos([
-            ...todos,
-            { id: new Date().toISOString(), value: newTodo, isDone: false }
-          ]);
-          setNewTodo("");
+          addTodo(newTodo);
+          setNewTodo('');
         }}
       >
         <TodoInput value={newTodo} onChange={handleChange} />

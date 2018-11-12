@@ -18,6 +18,9 @@ export default props => {
   const [todos, setTodos] = useState(initialTodos());
   const [time, setTime] = useState(new Date());
 
+  // TODO: manage bookmarks
+  // window.chrome.bookmarks.getRecent(10, b => console.log(b));
+
   // async call to chrome.storage.sync to load initial todos, will only run once
   useEffect(() => {
     if (hasChromeSync) {

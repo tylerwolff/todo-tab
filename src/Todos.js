@@ -53,6 +53,23 @@ export default props => {
     );
   };
 
+  const updateTodo = (todo, newValue) => {
+    setTodos(
+      todos.reduce((acc, t) => {
+        if (t.id === todo.id) {
+          acc.push({
+            ...t,
+            value: newValue,
+          });
+        } else {
+          acc.push(t);
+        }
+
+        return acc;
+      }, [])
+    );
+  };
+
   return (
     <div className="todos">
       <ul className="todos__list">
@@ -62,6 +79,7 @@ export default props => {
             todo={t}
             onToggle={toggleTodo}
             onDelete={deleteTodo}
+            onUpdate={updateTodo}
           />
         ))}
       </ul>

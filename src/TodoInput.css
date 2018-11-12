@@ -3,8 +3,12 @@
   align-items: center;
 }
 
+.todo__inputIcon {
+  margin-right: 0.5em;
+}
+
 .todo__inputField {
-  margin-left: 0.5em;
+  flex: 1;
   padding: 0.125em 0.125em 0.125em 0;
   color: #181818;
   background: 0;

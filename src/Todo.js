@@ -1,13 +1,18 @@
-import React from "react";
-import { FaRegCircle, FaRegCheckCircle } from "react-icons/fa";
-import { MdClose } from "react-icons/md";
-import "./Todo.css";
+import React, { useState } from 'react';
+import { FaRegCircle, FaRegCheckCircle } from 'react-icons/fa';
+import { MdClose } from 'react-icons/md';
+import './Todo.css';
 
 export default props => {
-  const { todo, onToggle, onDelete } = props;
+  const [isEditing, setIsEditing] = useState(false);
+  const { todo, onToggle, onDelete, onUpdate } = props;
+
+  const handleKeyDown = e => {
+    if (e.key === 'Enter') setIsEditing(false);
+  };
 
   return (
-    <li className={`todo ${todo.isDone && "todo--done"}`}>
+    <li className={`todo ${todo.isDone && 'todo--done'}`}>
       <button
         type="button"
         onClick={() => onToggle(todo)}
@@ -15,7 +20,21 @@ export default props => {
       >
         {todo.isDone ? <FaRegCheckCircle /> : <FaRegCircle />}
       </button>
-      <span className="todo__text">{todo.value}</span>
+      {isEditing ? (
+        <input
+          type="text"
+          className="todo__inputField"
+          value={todo.value}
+          onKeyDown={handleKeyDown}
+          onChange={e => onUpdate(todo, e.target.value)}
+          onBlur={() => setIsEditing(false)}
+          autoFocus={true}
+        />
+      ) : (
+        <span className="todo__text" onClick={() => setIsEditing(true)}>
+          {todo.value}
+        </span>
+      )}
       <button
         type="button"
         className="todo__remove"

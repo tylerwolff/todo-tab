@@ -1,5 +1,7 @@
 .todo {
-  padding: 0.125em;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.125em;
 }
 
 .todo:hover .todo__remove {
@@ -28,6 +30,7 @@
 }
 
 .todo__text {
+  padding: 0.125em 0.125em 0.125em 0;
 }
 
 .todo__remove {

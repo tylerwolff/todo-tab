@@ -72,7 +72,12 @@ export default props => {
           setNewTodo('');
         }}
       >
-        <TodoInput value={newTodo} onChange={handleChange} />
+        <TodoInput
+          value={newTodo}
+          onChange={handleChange}
+          placeholder={'Add task'}
+          autoFocus={!todos.length}
+        />
       </form>
     </div>
   );

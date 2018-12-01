@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
 import { format } from 'date-fns';
+import reducer from './reducer';
 import Todos from './Todos';
 import ProgressBar from './ProgressBar';
 import './App.css';
 
 const hasChromeSync = !!window.chrome.storage;
 
-const initialTodos = () => {
+const loadTodos = () => {
   if (hasChromeSync) {
     return [];
   } else {
@@ -15,8 +16,26 @@ const initialTodos = () => {
 };
 
 export default props => {
-  const [todos, setTodos] = useState(initialTodos());
+  const [state, dispatch] = useReducer(reducer, { todos: loadTodos() });
   const [time, setTime] = useState(new Date());
+  const todos = state.todos;
+
+  // Actions
+  const addTodo = todo => {
+    dispatch({ type: 'addTodo', todo });
+  };
+
+  const updateTodo = (todo, value) => {
+    dispatch({ type: 'updateTodo', todo, value });
+  };
+
+  const removeTodo = todo => {
+    dispatch({ type: 'removeTodo', todo });
+  };
+
+  const toggleTodo = todo => {
+    dispatch({ type: 'toggleTodo', todo });
+  };
 
   // TODO: manage bookmarks
   // window.chrome.bookmarks.getRecent(10, b => console.log(b));
@@ -25,7 +44,7 @@ export default props => {
   useEffect(() => {
     if (hasChromeSync) {
       window.chrome.storage.sync.get(['todos'], result => {
-        setTodos(result.todos || []);
+        dispatch({ type: 'resetTodos', todos: result.todos || [] });
       });
     }
   }, []);
@@ -70,7 +89,13 @@ export default props => {
     <div className="App">
       <ProgressBar progress={progress} />
       <h1 className="App__header">{format(time, 'dddd HH:mm')}</h1>
-      <Todos todos={todos} setTodos={setTodos} />
+      <Todos
+        todos={todos}
+        onAdd={addTodo}
+        onUpdate={updateTodo}
+        onToggle={toggleTodo}
+        onRemove={removeTodo}
+      />
     </div>
   );
 };

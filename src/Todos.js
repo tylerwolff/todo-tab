@@ -5,69 +5,10 @@ import './Todos.css';
 
 export default props => {
   const [newTodo, setNewTodo] = useState('');
-  const { todos, setTodos } = props;
+  const { todos, onAdd, onUpdate, onToggle, onRemove } = props;
 
   const handleChange = e => {
     setNewTodo(e.target.value);
-  };
-
-  const addTodo = text => {
-    setTodos([
-      ...todos,
-      {
-        id: new Date().toISOString(),
-        value: text,
-        isDone: false,
-        completedAt: null,
-      },
-    ]);
-  };
-
-  const toggleTodo = todo => {
-    setTodos(
-      todos.reduce((acc, t) => {
-        if (t.id === todo.id) {
-          acc.push({
-            ...t,
-            isDone: !t.isDone,
-            completedAt: new Date(),
-          });
-        } else {
-          acc.push(t);
-        }
-
-        return acc;
-      }, [])
-    );
-  };
-
-  const deleteTodo = todo => {
-    setTodos(
-      todos.reduce((acc, t) => {
-        if (t.id === todo.id) {
-          return acc;
-        }
-
-        return [...acc, t];
-      }, [])
-    );
-  };
-
-  const updateTodo = (todo, newValue) => {
-    setTodos(
-      todos.reduce((acc, t) => {
-        if (t.id === todo.id) {
-          acc.push({
-            ...t,
-            value: newValue,
-          });
-        } else {
-          acc.push(t);
-        }
-
-        return acc;
-      }, [])
-    );
   };
 
   return (
@@ -77,16 +18,16 @@ export default props => {
           <Todo
             key={index}
             todo={t}
-            onToggle={toggleTodo}
-            onDelete={deleteTodo}
-            onUpdate={updateTodo}
+            onToggle={onToggle}
+            onDelete={onRemove}
+            onUpdate={onUpdate}
           />
         ))}
       </ul>
       <form
         onSubmit={e => {
           e.preventDefault();
-          addTodo(newTodo);
+          onAdd(newTodo);
           setNewTodo('');
         }}
       >
